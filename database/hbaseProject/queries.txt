@@ -1,0 +1,28 @@
+Get all data from table
+scan 'foods'
+
+finds all data from meta column fam from all rows
+scan 'foods', {COLUMN => 'meta'}
+
+finds all data from other column fam from all rows
+scan 'foods', {COLUMN => 'other'}
+
+finds all data from proteins column fam from all rows
+scan 'foods', {COLUMN => 'proteins'}
+
+finds all data from vegtable column fam from all rows
+scan 'foods', {COLUMN => 'vegtable'}
+
+scans all rows and returns the display_name column
+scan 'foods', {COLUMN => 'meta:display_name'}
+
+find specific rows from id
+get 'foods', '12350000'
+
+search for all rows with added_sugar = .0000 and returns added_sugar and display_name
+scan 'foods', {FILTER => "SingleColumnValueFilter('other', 'added_sugar', =, 'binaryprefix:.0000')", COLUMN => ['other:added_sugar', 'meta:display_name']}
+
+
+
+
+
