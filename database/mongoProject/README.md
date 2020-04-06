@@ -1,3 +1,5 @@
+# Made by Jesper Rusbjerg, Nikolai Perlt
+
 
 # Sharding	in	MongoDB	
 ## What is sharding in mongoDB?
