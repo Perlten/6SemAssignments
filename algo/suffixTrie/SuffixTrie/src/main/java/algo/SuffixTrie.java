@@ -1,5 +1,6 @@
 package algo;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,15 +13,18 @@ public class SuffixTrie {
   public void add(String word) {
     word = word.toLowerCase();
     SuffixTrie.wholeWord = word;
-    
+
     for (int i = 0; i < word.length(); i++) {
-      word = word.substring(i);
-      char letter = word.charAt(0);
-     
+      String substring = word;
+      if (word.length() != 1) {
+        substring = word.substring(i);
+      }
+      char letter = substring.charAt(0);
+
       boolean found = false;
       for (RootNode rootNode : rootNodes) {
         if (rootNode.getLetter() == letter) {
-          rootNode.addChild(word);
+          rootNode.addChild(substring);
           found = true;
         }
       }
@@ -28,12 +32,19 @@ public class SuffixTrie {
       if (!found) {
         RootNode newRootNode = new RootNode(letter);
         this.rootNodes.add(newRootNode);
-        newRootNode.addChild(word);
+        newRootNode.addChild(substring);
       }
     }
   }
 
-  public List<String> find(String substring) {
-    return null;
+  public Collection<String> find(String substring) {
+    char rootLetter = substring.charAt(0);
+    String tempSubstring = substring.substring(1);
+    for (RootNode rootNode : rootNodes) {
+      if(rootNode.getLetter() == rootLetter){
+       return rootNode.find(tempSubstring);
+      }
+    }
+    return new LinkedList<>();
   }
 }

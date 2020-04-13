@@ -1,19 +1,35 @@
 package algo;
 
+import java.io.FileNotFoundException;
+import java.util.Collection;
+import java.util.Scanner;
+
 /**
  * Hello world!
  *
  */
 public class App {
-  public static void main(String[] args) {
-    SuffixTrie sf = new SuffixTrie();
-    sf.add("per");
-    sf.add("pej");
-    // sf.add("Perlt");
-    // sf.add("Rusbjerg");
-    // sf.add("JesperBlevFyret");
-    // sf.add("JegErSej");
+  public static void main(String[] args) throws FileNotFoundException {
+    String[] arr = new FileReader("./shakespeare-complete-works.txt").readFile();
 
-    System.out.println("Hejm");
+    SuffixTrie sf = new SuffixTrie();
+    for (String word : arr) {
+      sf.add(word);
+    }
+
+    boolean run = true;
+
+    Scanner sc = new Scanner(System.in);
+    while (run) {
+      System.out.println("Pleaser enter a substring of shakespears combined works. Thank you *sips tea*");
+      String substring = sc.next();
+
+      Collection<String> res = sf.find(substring);
+      for (String resString : res) {
+        System.out.println(resString);
+      }
+    }
+    sc.close();
+
   }
 }
