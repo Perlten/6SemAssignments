@@ -1,3 +1,5 @@
+# Made by Jesper Rusbjerg, Nikolai Perlt
+
 
 # Sharding	in	MongoDB	
 ## What is sharding in mongoDB?
@@ -9,6 +11,7 @@
 ## Explain architecture of sharding in mongoDB? 
   Arkitekturen består af flere komponenter. Når et request rammer serveren bliver den først sendt til en mongoshard manager. Manageren anvender skalerings nøglen og laver en hash der fortæller hvilken shard den skal tilgå. Disse shards kan være delt ud på flere forskellige servere. På hver af disse shards indeholder replicasets så dataen hurtiger kan tilgås.
 
+# Exercise:	MapReduce	with	mongoDB
 
 use earth
 
@@ -19,6 +22,8 @@ db.countries.mapReduce(
   {out: "counter"}
 ).find().sort({value: -1}).limit(10)
 ```
+
+# Exercise:	MapReduce	with	mongoDB	(hashtag	query)
 
 use twitter
 
