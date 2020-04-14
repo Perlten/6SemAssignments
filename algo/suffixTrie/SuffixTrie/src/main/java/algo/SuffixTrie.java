@@ -24,15 +24,15 @@ public class SuffixTrie {
       boolean found = false;
       for (Node Node : Nodes) {
         if (Node.getLetter() == letter) {
-          Node.addChild(substring);
+          Node.addChild(substring, word);
           found = true;
         }
       }
-
+     
       if (!found) {
-        Node newNode = new Node(letter);
+        Node newNode = new Node(letter, 1);
         this.Nodes.add(newNode);
-        newNode.addChild(substring);
+        newNode.addChild(substring, word);
       }
     }
   }

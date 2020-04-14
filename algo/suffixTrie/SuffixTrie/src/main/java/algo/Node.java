@@ -9,36 +9,58 @@ public class Node {
   private char letter;
   private List<Node> children = new LinkedList<>();
   private Collection<String> words = new HashSet<>();
+  private int layer;
 
-  public Node(char letter) {
+  public Node(char letter, int layer) {
     this.letter = letter;
+    this.layer = layer;
   }
 
-  public void addChild(String word) {
-    word = word.substring(1);
-
-    if (!this.words.contains(SuffixTrie.wholeWord)) {
-      this.words.add(SuffixTrie.wholeWord);
-    }
-
-    if (word.equals("")) {
+  public void addChild(String subString, String wholeWord) {
+    if (subString.length() < 1) {
       return;
     }
 
-    char letter = word.charAt(0);
+    subString = subString.substring(1);
+
+    if (!this.words.contains(wholeWord)) {
+      this.words.add(wholeWord);
+    }
+
+    if (subString.equals("")) {
+      return;
+    }
+
+    char letter = subString.charAt(0);
     boolean found = false;
 
     for (Node node : this.children) {
       if (node.getLetter() == letter) {
-        node.addChild(word);
+        node.addChild(subString, wholeWord);
         found = true;
       }
     }
 
     if (!found) {
-      Node node = new Node(letter);
-      children.add(node);
-      node.addChild(word);
+      if (this.words.size() > 2) {
+        Node node = new Node(letter, layer + 1);
+        children.add(node);
+        node.addChild(subString, wholeWord);
+      } else if (this.words.size() > 1) {
+        String orginalWord = this.words.iterator().next();
+        String orginalWordSubstring = orginalWord.substring(this.layer);
+
+        Node node = new Node(letter, layer + 1);
+        children.add(node);
+
+        if (orginalWord.length() > wholeWord.length()) {
+          node.addChild(subString, wholeWord);
+          node.addChild(orginalWordSubstring, orginalWord);
+        } else {
+          node.addChild(orginalWordSubstring, orginalWord);
+          node.addChild(subString, wholeWord);
+        }
+      }
     }
 
   }
@@ -51,12 +73,19 @@ public class Node {
     }
     char letter = tempString.charAt(0);
 
-    for (Node node : children) {
+    for (Node node : this.children) {
       if (node.getLetter() == letter) {
         return node.find(tempString);
       }
     }
-    return new LinkedList<>();
+    LinkedList<String> resList = new LinkedList<>();
+    for (String word : this.words) {
+      if (word.contains(substring)) {
+        resList.add(word);
+      }
+    }
+    return resList;
+
   }
 
   public List<Node> getChildren() {
