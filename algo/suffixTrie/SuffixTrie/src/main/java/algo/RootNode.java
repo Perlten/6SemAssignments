@@ -29,7 +29,7 @@ public class RootNode {
     boolean found = false;
     for (Node node : children) {
       if (node.getLetter() == letter) {
-        node.addWord(word);
+        node.addChild(word);
         found = true;
       }
     }
@@ -37,7 +37,7 @@ public class RootNode {
     if (!found) {
       Node node = new Node(letter);
       children.add(node);
-      node.addWord(word);
+      node.addChild(word);
     }
   }
 

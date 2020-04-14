@@ -14,7 +14,7 @@ public class Node {
     this.letter = letter;
   }
 
-  public void addWord(String word) {
+  public void addChild(String word) {
     word = word.substring(1);
 
     if (!this.words.contains(SuffixTrie.wholeWord)) {
@@ -30,7 +30,7 @@ public class Node {
 
     for (Node node : this.children) {
       if (node.getLetter() == letter) {
-        node.addWord(word);
+        node.addChild(word);
         found = true;
       }
     }
@@ -38,7 +38,7 @@ public class Node {
     if (!found) {
       Node node = new Node(letter);
       children.add(node);
-      node.addWord(word);
+      node.addChild(word);
     }
 
   }
