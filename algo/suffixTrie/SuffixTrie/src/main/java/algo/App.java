@@ -10,22 +10,24 @@ import java.util.Scanner;
  */
 public class App {
   public static void main(String[] args) throws FileNotFoundException {
-    // String[] arr = new FileReader("./shakespeare-complete-works.txt").readFile();
-
     SuffixTrie sf = new SuffixTrie();
+    
+    // String[] arr = new FileReader("./shakespeare-complete-works.txt").readFile();
     // for (String word : arr) {
     //   sf.add(word);
     // }
 
-    sf.add("per");
-    sf.add("nikolai");
-    sf.add("jesper");
-    sf.add("troels");
-    sf.add("perlt");
-    sf.add("perit");
-    sf.add("perlo");
-    sf.add("pedro");
-    sf.add("pedrolifiet");
+    // sf.add("per");
+    // sf.add("perit");
+    // sf.add("pedro");
+    sf.add("jul");
+    sf.add("julietta");
+    // sf.add("nikolai");
+    // sf.add("jesper");
+    // sf.add("troels");
+    // sf.add("perlt");
+    // sf.add("perlo");
+    // sf.add("pedrolifiet");
 
     // sf.add("ananas");
 

@@ -32,7 +32,7 @@ public class SuffixTrie {
       boolean found = false;
       for (Node Node : Nodes) {
         if (Node.getLetter() == letter) {
-          Node.addChild(substring, word);
+          Node.addChild(substring, word, i);
           found = true;
         }
       }
@@ -40,7 +40,7 @@ public class SuffixTrie {
       if (!found) {
         Node newNode = new Node(letter, 1);
         this.Nodes.add(newNode);
-        newNode.addChild(substring, word);
+        newNode.addChild(substring, word, i);
       }
     }
   }
@@ -49,7 +49,7 @@ public class SuffixTrie {
    * @param substring
    * @return Collection<String> Finds a given substring on out word collection
    */
-  public Collection<String> find(String substring) {
+  public List<String> find(String substring) {
     // We find the first letter and checks if we can find a node with the given
     // letter in out child list
     char rootLetter = substring.charAt(0);
