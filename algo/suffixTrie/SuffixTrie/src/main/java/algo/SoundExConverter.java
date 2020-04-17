@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Utils {
+public class SoundExConverter {
 
   private static List<Character> forbiddenChars = new ArrayList<>(
       Arrays.asList(new Character[] { 'a', 'e', 'i', 'o', 'u', 'y', 'h', 'w' }));

@@ -25,14 +25,13 @@ class Node {
   public void addChild(String substring, String wholeWord) {
     substring = substring.substring(1);
 
-    // orginal nåede sit maks men nye ord stadig skal lave en ny node
+    // Check if current word has reached its final node
     if (substring == null || substring.equals("")) {
       if (this.wordSubstring != null && this.wordSubstring.equals("")) {
         this.finalStrings.add(wholeWord);
         return;
       }
-      // hvis der ligger et ord der er større end det nye så smider vi det større
-      // afsted til en ny node
+      // if there already is a word saved in this node, create a new node for it
       if (this.word != null && this.word != wholeWord) {
         String orginalWord = this.word;
         String orginalWordSubstring = this.wordSubstring;
@@ -47,7 +46,7 @@ class Node {
       return;
     }
 
-    // hvis noden er tom bruger vi compact
+    // This makes the node compact if possible
     if (this.word == null && this.children.size() == 0) {
       this.word = wholeWord;
       this.wordSubstring = substring;
@@ -56,7 +55,7 @@ class Node {
 
     char substringLetter = substring.charAt(0);
 
-    // Leder efter en child node der passer til letter
+    // Looks for a child node which matches the current letter
     for (Node node : this.children) {
       if (node.getLetter() == substringLetter) {
         node.addChild(substring, wholeWord);
@@ -64,7 +63,8 @@ class Node {
       }
     }
 
-    // if orginal word is in the right node only create a new node for new word
+    // If the orginal word is in the right location create new node for the curren
+    // word
     if (this.wordSubstring == null || this.wordSubstring.equals("")) {
       Node newNode = new Node(substringLetter, layer + 1);
       newNode.addChild(substring, wholeWord);
@@ -72,12 +72,12 @@ class Node {
       return;
     }
 
-    // her skal vi grene ud med nodes
     String orginalWord = this.word;
     String orginalWordSubstring = this.wordSubstring;
     char orginalLetter = orginalWordSubstring.charAt(0);
 
-    // hvis de to substrings har samme letter laver vi en node
+    // If the orginal letter and the current letter is the same create one node and
+    // add both words as children
     if (orginalLetter == substringLetter) {
       Node node = new Node(orginalLetter, layer + 1);
       this.children.add(node);
@@ -87,7 +87,7 @@ class Node {
       this.wordSubstring = null;
       return;
     }
-    // hvis ikke laver vi 2
+    // if not create two nodes with each word
     Node orginalNode = new Node(orginalLetter, layer + 1);
     orginalNode.addChild(orginalWordSubstring, orginalWord);
 
@@ -166,3 +166,9 @@ class Node {
     return letter;
   }
 }
+
+
+
+
+
+
