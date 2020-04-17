@@ -1,8 +1,10 @@
 package algo;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class SuffixTrie {
 
@@ -32,7 +34,7 @@ public class SuffixTrie {
       boolean found = false;
       for (Node Node : Nodes) {
         if (Node.getLetter() == letter) {
-          Node.addChild(substring, word, i);
+          Node.addChild(substring, word);
           found = true;
         }
       }
@@ -40,7 +42,7 @@ public class SuffixTrie {
       if (!found) {
         Node newNode = new Node(letter, 1);
         this.Nodes.add(newNode);
-        newNode.addChild(substring, word, i);
+        newNode.addChild(substring, word);
       }
     }
   }
@@ -49,15 +51,15 @@ public class SuffixTrie {
    * @param substring
    * @return Collection<String> Finds a given substring on out word collection
    */
-  public List<String> find(String substring) {
+  public Set<String> find(String substring) {
     // We find the first letter and checks if we can find a node with the given
     // letter in out child list
     char rootLetter = substring.charAt(0);
     for (Node Node : Nodes) {
       if (Node.getLetter() == rootLetter) {
-        return Node.find(substring);
+        return Node.find(substring, substring);
       }
     }
-    return new LinkedList<>();
+    return new HashSet<>();
   }
 }
