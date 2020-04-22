@@ -1,0 +1,44 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build & Run",
+      "group": "build",
+      "dependsOn": [
+        "Build",
+        "Run"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
+      "label": "Clean & Build",
+      "group": "build",
+      "dependsOn": [
+        "Clean",
+        "Build"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build",
+      "type": "shell",
+      "command": "mvn package -DskipTests=true",
+      "group": "build"
+    },
+    {
+      "label": "Run",
+      "type": "shell",
+      "command": "mvn exec:java -Dexec.mainClass=algo.App",
+      "problemMatcher": []
+    },
+    {
+      "label": "Clean",
+      "type": "shell",
+      "command": "mvn clean"
+    }
+  ]
+}
