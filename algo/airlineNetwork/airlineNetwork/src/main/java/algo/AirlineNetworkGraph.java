@@ -1,5 +1,6 @@
 package algo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -108,6 +109,111 @@ public class AirlineNetworkGraph {
     // next airport code as source
     String nextAirport = airportQueue.remove();
     return breadthFirst(nextAirport, dest, airlineCode, airportQueue, visitedAirports);
+  }
+
+  public Map<String, ShortestGraphTable> findShortestDistance(String current, String dest,
+      Map<String, ShortestGraphTable> nodeTable, Queue<String> airportQueue) {
+    if (nodeTable == null) {
+      nodeTable = new HashMap<>();
+      nodeTable.put(current, new ShortestGraphTable(0, this.airportMap.get(current), null));
+    }
+    if (airportQueue == null) {
+      airportQueue = new LinkedList<>();
+    }
+
+    if (current.equals(dest)) {
+      return nodeTable;
+    }
+
+    Airport currentAirport = this.airportMap.get(current);
+
+    for (Route route : currentAirport.routes) {
+      double routeDistance = Double.parseDouble(route.distance);
+      double currentNodeDistance = nodeTable.get(current).distance + routeDistance;
+
+      if (!nodeTable.containsKey(route.airport.code)) {
+        airportQueue.add(route.airport.code);
+        nodeTable.put(route.airport.code, new ShortestGraphTable(currentNodeDistance, route.airport, currentAirport));
+      } else {
+        double nextDistance = nodeTable.get(route.airport.code).distance;
+        if (currentNodeDistance < nextDistance) {
+          airportQueue.add(route.airport.code);
+          nodeTable.put(route.airport.code, new ShortestGraphTable(currentNodeDistance, route.airport, currentAirport));
+        }
+      }
+    }
+
+    if (airportQueue.isEmpty()) {
+      return nodeTable;
+    }
+    String nextAirportCode = airportQueue.remove();
+    return findShortestDistance(nextAirportCode, dest, nodeTable, airportQueue);
+  }
+
+  public Map<String, ShortestGraphTable> findShortestTime(String current, String dest,
+      Map<String, ShortestGraphTable> nodeTable, Queue<String> airportQueue) {
+    if (nodeTable == null) {
+      nodeTable = new HashMap<>();
+      nodeTable.put(current, new ShortestGraphTable(0, this.airportMap.get(current), null));
+    }
+    if (airportQueue == null) {
+      airportQueue = new LinkedList<>();
+    }
+
+    if (current.equals(dest)) {
+      return nodeTable;
+    }
+
+    Airport currentAirport = this.airportMap.get(current);
+
+    for (Route route : currentAirport.routes) {
+      double routeTime = Double.parseDouble(route.distanceTime);
+      double currentNodeTime = nodeTable.get(current).distance + routeTime;
+
+      if (!nodeTable.containsKey(route.airport.code)) {
+        airportQueue.add(route.airport.code);
+        nodeTable.put(route.airport.code, new ShortestGraphTable(currentNodeTime + 1, route.airport, currentAirport));
+      } else {
+        double nextTime = nodeTable.get(route.airport.code).distance;
+        if (currentNodeTime < nextTime) {
+          airportQueue.add(route.airport.code);
+          nodeTable.put(route.airport.code, new ShortestGraphTable(currentNodeTime + 1, route.airport, currentAirport));
+        }
+      }
+    }
+
+    if (airportQueue.isEmpty()) {
+      return nodeTable;
+    }
+    String nextAirportCode = airportQueue.remove();
+    return findShortestDistance(nextAirportCode, dest, nodeTable, airportQueue);
+  }
+
+  public List<Airport> getPath(Map<String, ShortestGraphTable> map, String from, String dest) {
+    String current = dest;
+    List<Airport> res = new ArrayList<>();
+    if(!map.containsKey(current)){
+      return new ArrayList<>();
+    }
+    res.add(map.get(current).node);
+
+    while (!current.equals(from)) {
+      ShortestGraphTable sgt = map.get(current);
+      Airport currentAirport = sgt.edge;
+      res.add(currentAirport);
+      current = sgt.edge.code;
+    }
+    return res;
+  }
+
+
+  public String widestCoverageAirline(List<JsonObject> airlines){
+    for(JsonObject airline : airlines){
+      
+    }
+
+
+    return null;
   }
 
 }

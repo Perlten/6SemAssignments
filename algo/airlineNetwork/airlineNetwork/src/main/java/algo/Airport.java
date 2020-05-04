@@ -16,6 +16,9 @@ public class Airport {
   public final String longitude;
   public final List<Route> routes = new ArrayList<>();
 
+  public double totalDistanceFromRoot = 0;
+
+
   public Airport(JsonObject airport){
     this.code = airport.get("code").getAsString();
     this.name = airport.get("name").getAsString();
