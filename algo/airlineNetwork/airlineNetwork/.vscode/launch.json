@@ -10,7 +10,7 @@
       "request": "launch",
       "mainClass": "algo.App",
       "projectName": "airlineNetwork",
-      "preLaunchTask": "Build"
+      "preLaunchTask": "Build",
     }
   ]
 }

@@ -1,11 +1,13 @@
 package algo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 
@@ -192,7 +194,7 @@ public class AirlineNetworkGraph {
   public List<Airport> getPath(Map<String, ShortestGraphTable> map, String from, String dest) {
     String current = dest;
     List<Airport> res = new ArrayList<>();
-    if(!map.containsKey(current)){
+    if (!map.containsKey(current)) {
       return new ArrayList<>();
     }
     res.add(map.get(current).node);
@@ -206,14 +208,72 @@ public class AirlineNetworkGraph {
     return res;
   }
 
-
-  public String widestCoverageAirline(List<JsonObject> airlines){
-    for(JsonObject airline : airlines){
-      
+  // find the coverage for a airline
+  private double coverageForAirline(String currentAirlineCode, String airportCode, Set<String> visited,
+      PriorityQueue<AirportDistanceMST> priorityQueue, double totalDistance) {
+    if (visited == null) {
+      visited = new HashSet<>();
+    }
+    if (priorityQueue == null) {
+      priorityQueue = new PriorityQueue<>();
     }
 
+    // Added airport to visited airports
+    visited.add(airportCode);
+    // Gets current airport
+    Airport currentAirport = this.airportMap.get(airportCode);
+    // This is to prevent a stack overflow, if this algo was to be used in the
+    // wild we should make sure our jvm has a bigger stack and remove this line of
+    // code
+    List<AirportDistanceMST> toRemove = new ArrayList<>();
+    for (AirportDistanceMST adMST : priorityQueue) {
+      if (adMST.airport.code.equals(currentAirport.code)) {
+        toRemove.add(adMST);
+      }
+    }
+    for (AirportDistanceMST adMST : toRemove) {
+      priorityQueue.remove(adMST);
+    }
 
-    return null;
+    if (currentAirport.routes != null) {
+      // iterrates all route on airport and checks if its from the correct airline and
+      // that we havent visited it before
+      for (Route route : currentAirport.routes) {
+        if (route.airlineCode.equals(currentAirlineCode)) {
+          if (!visited.contains(route.airport.code)) {
+            // Added distance to total and add next airport to queue
+            totalDistance += Double.parseDouble(route.distance);
+            AirportDistanceMST adMST = new AirportDistanceMST(route.airport, route.distance);
+            priorityQueue.add(adMST);
+          }
+        }
+      }
+    }
+
+    // Exit condition if queue is empty and return totalDistance
+    if (priorityQueue.isEmpty()) {
+      return totalDistance;
+    }
+
+    // Gets next airport from queue and call mehod again recursively
+    AirportDistanceMST nextAirport = priorityQueue.poll();
+    return coverageForAirline(currentAirlineCode, nextAirport.airport.code, visited, priorityQueue, totalDistance);
+  }
+
+
+  // iterrates all airlines and find the one with the biggest coverage 
+  public String widestCoverageAirlines(List<String> airlines, String startAirport) {
+    double biggestSoFar = -1;
+    String biggestAirline = null;
+
+    for (String airline : airlines) {
+      double res = coverageForAirline(airline, startAirport, null, null, 0);
+      if (res > biggestSoFar) {
+        biggestSoFar = res;
+        biggestAirline = airline;
+      }
+    }
+    return biggestAirline;
   }
 
 }

@@ -1,6 +1,7 @@
 package algo;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,26 +20,39 @@ public class App {
     for (JsonObject route : routes) {
       graph.addRoute(route);
     }
+    List<String> airlinesCode = new ArrayList<>();
 
-    Map<String, ShortestGraphTable> res = graph.findShortestTime("CPH", "JZH", null, null);
+    for (JsonObject airline : airlines) {
+      airlinesCode.add(airline.get("code").getAsString());
+    }
+
+    // Find the widest airline width mst
+    String widestAirlineSpan = graph.widestCoverageAirlines(airlinesCode, "CPH");
+    System.out.println(widestAirlineSpan);
+
+    // Find shortest time from one airport the another
+    Map<String, ShortestGraphTable> res = graph.findShortestTime("CPH", "JZH",
+    null, null);
     List<Airport> res2 = graph.getPath(res, "CPH", "JZH");
     
-    Map<String, ShortestGraphTable> res3 = graph.findShortestDistance("CPH", "JZH", null, null);
+    // Find shortest distance from one airport the another
+    Map<String, ShortestGraphTable> res3 = graph.findShortestDistance("CPH",
+    "JZH", null, null);
     List<Airport> res4 = graph.getPath(res3, "CPH", "JZH");
-    
-    // Checks if we can connect from DMM to ABT with SV (should return true)
-    // long currentTime = System.nanoTime();
-    // System.out.println(graph.depthFirst("DMM", "ABT", "SV", null));
-    // long newTime = System.nanoTime();
-    // System.out.println(newTime - currentTime);
 
-    // currentTime = System.nanoTime();
-    // System.out.println(graph.breadthFirst("DMM", "ABT", "SV", null, null));
-    // newTime = System.nanoTime();
-    // System.out.println(newTime - currentTime);
+    // Checks if we can connect from DMM to ABT with SV (should return true)
+    long currentTime = System.nanoTime();
+    System.out.println(graph.depthFirst("DMM", "ABT", "SV", null));
+    long newTime = System.nanoTime();
+    System.out.println(newTime - currentTime);
+
+    currentTime = System.nanoTime();
+    System.out.println(graph.breadthFirst("DMM", "ABT", "SV", null, null));
+    newTime = System.nanoTime();
+    System.out.println(newTime - currentTime);
 
     // // Checks if we can connect from SCQ to TXL with W2 (should return false)
-    // System.out.println(graph.depthFirst("SCQ", "TXL", "W2", null));
-    // System.out.println(graph.breadthFirst("SCQ", "TXL", "W2", null, null));
+    System.out.println(graph.depthFirst("SCQ", "TXL", "W2", null));
+    System.out.println(graph.breadthFirst("SCQ", "TXL", "W2", null, null));
   }
 }
