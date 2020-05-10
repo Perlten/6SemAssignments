@@ -1,0 +1,16 @@
+{
+  "name": "miniProject2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "neo4jConverter.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^3.5.7",
+    "neo4j-driver": "^4.0.2"
+  }
+}
