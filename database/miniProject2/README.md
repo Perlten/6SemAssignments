@@ -19,6 +19,8 @@ Her vinder mongo klart. Dette skyldes at mongo kan læse et show samt dens "acto
 ![alt text](./images/spaceComp.png "Space complexity read times")
 Som nævnt oven for bruger neo4j mere plads end mongo for at op nå bedre hastighed. Dette gør den blandt andet ved at gemme sine relations mellem noderne, dette anvendes også til neo4j algoritmer. Mongo på den anden side har "kun" brug for at gemme selve daten samt index. Mongo kan dog godt komme til at fylde meget da det er okay at have duplikerende og embeded data.
 
+![alt text](https://media.discordapp.net/attachments/419171682612412417/710403828964392960/scaling.png "space comp")
+
 #### creating demo code for testing the selected database operations against the selected comparison criteria
 
 Inde i file main.js kan man se eksempler på single read, og mass reads, med tilsvarende speed test.
