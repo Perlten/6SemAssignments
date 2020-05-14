@@ -21,6 +21,8 @@ Som nævnt oven for bruger neo4j mere plads end mongo for at op nå bedre hastig
 
 ![alt text](https://media.discordapp.net/attachments/419171682612412417/710403828964392960/scaling.png "space comp")
 
+![alt text](https://media.discordapp.net/attachments/419171682612412417/710403833121079376/security.png?width=1440&height=398 "stuff")
+
 #### creating demo code for testing the selected database operations against the selected comparison criteria
 
 Inde i file main.js kan man se eksempler på single read, og mass reads, med tilsvarende speed test.
